@@ -38,7 +38,7 @@ const CityDropdown: React.FC<CityDropdownProps> = ({
       });
     }
     fetchCities();
-  }, [query]);
+  }, [query, sendRequest, setCities]);
 
   function handleClick(city: City) {
     console.log(city);

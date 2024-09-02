@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --watchAll --no-cache",
-    "start": "ts-node-dev src/app.ts"
+    "start": "ts-node-dev src/index.ts"
   },
   "jest": {
     "preset": "ts-jest",

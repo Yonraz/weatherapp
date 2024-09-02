@@ -1,4 +1,5 @@
 import { City } from "../types/city";
+import { CityData, CityResponse } from "./citySchema";
 import {
   Forecast,
   ForecastDay,
@@ -59,8 +60,7 @@ export function trimWeatherData(data: WeatherData): WeatherResponse {
   };
 }
 
-export function trimCityData(data: any[]): City[] {
-  console.log(data);
+export function trimCityData(data: CityData[]): CityResponse[] {
   return data.map((city) => ({
     name: city.name,
     country: city.country,

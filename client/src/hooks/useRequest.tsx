@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { RequestError, useRequestParams } from "../types/requestTypes";
 
 
@@ -9,7 +9,7 @@ export default function useRequest() {
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const sendRequest = async ({
+  const sendRequest = useCallback(async ({
     url,
     method,
     body,
@@ -44,7 +44,7 @@ export default function useRequest() {
       }
     }
     setIsLoading(false);
-  };
+  }, [])
 
   return { requestErrors, sendRequest, isLoading };
 }

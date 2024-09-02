@@ -1,14 +1,13 @@
-import { z } from "zod";
 import { InternalServerError } from "../models/errors/internalServerError";
 import { weatherDataSchema, weatherResponseSchema } from "./weatherSchema";
 
 export const validateWeatherData = (data: any) => {
   try {
-    weatherDataSchema.parse(data);
-    return null;
+    const obj = weatherDataSchema.parse(data);
+    return obj;
   } catch (error) {
     console.error(error);
-    return new InternalServerError("Could not process weather data");
+    throw new InternalServerError("Could not process weather data");
   }
 };
 
@@ -18,6 +17,6 @@ export const validateWeatherResponse = (res: any) => {
     return obj;
   } catch (error) {
     console.error(error);
-    return new InternalServerError("Could not process weather data");
+    throw new InternalServerError("Could not process weather data");
   }
 };

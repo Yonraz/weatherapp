@@ -21,8 +21,4 @@ app.all("*", async () => {
 
 app.use(handleError);
 
-app.listen(8000, () => {
-  console.log("listening on port 8000");
-});
-
 export default app;
