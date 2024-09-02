@@ -1,0 +1,10 @@
+.location-container {
+  font: normal normal 300 14px/22px Heebo;
+  color: #707070;
+}
+
+@media screen and (max-width: 767px) {
+  .location-container {
+    margin-top: 1rem;
+  }
+}

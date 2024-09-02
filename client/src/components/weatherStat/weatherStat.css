@@ -1,0 +1,22 @@
+.stat-value {
+  font-weight: medium;
+}
+
+.stat-title {
+  color: #e8f1f2;
+  font-weight: 300;
+}
+.weather-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.2rem;
+  line-height: 30px;
+  margin: 0 0.3rem;
+  align-items: center;
+  width: max-content;
+}
+.weather-stat > p {
+  margin: 0;
+}
+

@@ -1,0 +1,17 @@
+.hour {
+  font-weight: 300;
+
+  color: #a8c6cb;
+}
+.hour-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  line-height: 22px;
+}
+.hour-temp {
+  font-weight: 500;
+}
+
+
