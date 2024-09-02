@@ -35,7 +35,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
             <div className="location-name">{weatherData.name}</div>
             <div className="country">{weatherData.country}</div>
             <div className="weather-info">
-              {dateObj.date} at {dateObj.time}
+              {dateObj.date?.toString().replace(/-/g, "/")} at {dateObj.time}
             </div>
             <div className="temp-container">
               <div className="temp">{weatherData.temp_c}°</div>
@@ -55,7 +55,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
                 value={`${weatherData.wind_kph} km/h`}
               />
             </div>
-            <HourForecast day={weatherData.forecast.forecastday[0]} />
+            <HourForecast days={weatherData.forecast.forecastday} />
           </div>
         </>
       ) : (

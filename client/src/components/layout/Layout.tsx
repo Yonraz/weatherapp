@@ -6,10 +6,10 @@ interface LayoutProps {
 }
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div>
+    <>
       <img src={logo} alt="fintek logo" className="logo" />
       {children}
-    </div>
+    </>
   );
 };
 export default Layout;

@@ -19,7 +19,7 @@ const WeatherForm: React.FC<InputProps> = ({ handleClick }) => {
     const cityArr = cities?.filter((city) => selected.name === city.name);
     console.log(cities);
     if (!cityArr || cityArr?.length === 0) return;
-    const querystring = `${selected.lattitude},${selected.longitude}`;
+    const querystring = selected.name;
     handleClick(querystring);
   }
 

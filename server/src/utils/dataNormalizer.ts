@@ -10,37 +10,36 @@ import {
 
 function getRelevantHours(data: ForecastDay[]) {
   const currentHour = new Date().getHours();
-  const relevantHours = [];
-  const today = new Date().toDateString();
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
 
   for (const day of data) {
-    const filteredHours = day.hour.filter((hourObj: Hour) => {
+    const filteredHours = day.hour.filter((hourObj) => {
       const hour = parseInt(hourObj.time.split(" ")[1].split(":")[0], 10);
-      if (new Date(day.date).toDateString() === today) {
+      const date = new Date(day.date).toDateString();
+      if (date === today.toDateString()) {
+        return hour >= currentHour && hour < currentHour + 5;
+      } else if (date === tomorrow.toDateString()) {
         if (currentHour >= 19) {
-          return hour >= 19 || hour <= 23;
-        } else {
-          return hour >= currentHour && hour < currentHour + 5;
-        }
-      } else {
-        if (currentHour >= 19) {
+          console.log(5 - (24 - currentHour));
           return hour < 5 - (24 - currentHour);
         }
       }
       return false;
     });
 
-    relevantHours.push(...filteredHours);
+    day.hour = filteredHours;
   }
 
-  return relevantHours;
+  return data;
 }
 
 export function trimWeatherData(data: WeatherData): WeatherResponse {
   const { location, current, forecast } = data;
 
-  const hours = getRelevantHours(forecast.forecastday);
-  forecast.forecastday[0].hour = hours;
+  const days = getRelevantHours(forecast.forecastday);
+  forecast.forecastday = days;
 
   return {
     name: location.name,
