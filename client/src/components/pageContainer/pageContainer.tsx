@@ -6,8 +6,8 @@ export default function PageContainer({
   children: ReactNode | ReactNode[];
 }) {
   return (
-    <div>
+    <>
       <div className="page-container">{children}</div>
-    </div>
+    </>
   );
 }
