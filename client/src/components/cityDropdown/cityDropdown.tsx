@@ -1,13 +1,13 @@
-import { useEffect } from "react";
-import useRequest from "../../hooks/useRequest";
 import { City } from "../../types/citySchema";
 import "./cityDropdown.css";
+import { RequestError } from "../../types/requestTypes";
 
 interface CityDropdownProps {
   query: string;
   setSelected: (city: City) => void;
   cities: City[] | undefined;
-  setCities: (data: City[] | undefined) => void;
+  isLoading: boolean;
+  requestErrors: RequestError[] | null;
   isOpen: boolean;
 }
 
@@ -15,33 +15,11 @@ const CityDropdown: React.FC<CityDropdownProps> = ({
   query,
   setSelected,
   cities,
-  setCities,
+  isLoading,
+  requestErrors,
   isOpen,
 }) => {
-  const { sendRequest, isLoading, requestErrors } = useRequest();
-  console.log(requestErrors);
-
-  useEffect(() => {
-    if (query.length < 3) {
-      setCities(undefined);
-      return;
-    }
-    async function fetchCities() {
-      await sendRequest({
-        url: `http://localhost:8000/api/cities?query=${query}`,
-        method: "GET",
-        onSuccess: (data: unknown) => {
-          try {
-            setCities(data as City[]);
-          } catch (err) {
-            console.error(err);
-          }
-        },
-      });
-    }
-    fetchCities();
-  }, [query, sendRequest, setCities]);
-
+  
   function handleClick(city: City) {
     setSelected(city);
   }
@@ -51,7 +29,7 @@ const CityDropdown: React.FC<CityDropdownProps> = ({
       <>
         <div className="cities-dropdown" aria-expanded={isOpen} role="listbox">
           {isLoading && <li className="info">Loading...</li>}
-          {query.length > 3 &&
+          {query.length > 2 &&
             requestErrors &&
             requestErrors.map((err, i) => (
               <li key={i} className="error">

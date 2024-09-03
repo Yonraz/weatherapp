@@ -1,47 +1,59 @@
-import { useEffect, useState } from "react";
 import "./weatherForm.css";
-import { City } from "../../types/citySchema";
 import CityDropdown from "../cityDropdown/cityDropdown";
+import useWeatherForm from "../../hooks/useWeatherForm";
+import useRequest from "../../hooks/useRequest";
+import { useCallback } from "react";
+import { debounce } from "../../utils/debounce";
+import { City } from "../../types/citySchema";
 
 interface InputProps {
   handleClick: (query: string) => void;
 }
 
 const WeatherForm: React.FC<InputProps> = ({ handleClick }) => {
-  const [cities, setCities] = useState<City[] | undefined>();
-  const [input, setInput] = useState("");
-  const [selected, setSelected] = useState<City | undefined>();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { sendRequest, isLoading, requestErrors } = useRequest();
+  const {
+    setCities,
+    cities,
+    input,
+    setInput,
+    setIsDropdownOpen,
+    isDropdownOpen,
+    handleSelect,
+    handleSubmit,
+    handleBlur,
+  } = useWeatherForm({ onSubmit: handleClick });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const fetchCities = useCallback(
+    async (value: string) => {
+      await sendRequest({
+        url: `http://localhost:8000/api/cities?query=${value}`,
+        method: "GET",
+        onSuccess: (data: unknown) => {
+          try {
+            setCities(data as City[]);
+          } catch (err) {
+            console.error(err);
+          }
+        },
+      });
+    },
+    [sendRequest, setCities]
+  );
 
-    if (!selected && (!cities || cities.length === 0)) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    setInput(value);
+    if (value.length < 3) {
+      setCities(undefined);
       return;
     }
-    const query = selected || cities![0];
 
-    const querystring = `${query.name}, ${query.country}`;
-    handleSelect(query);
-    handleClick(querystring);
+    const debouncedFetchCities = debounce(fetchCities, 300);
+
+    debouncedFetchCities(value);
   }
 
-  useEffect(() => {
-    setSelected(undefined);
-  }, [cities]);
-
-  function handleSelect(city: City) {
-    setSelected(city);
-    setInput(city.name);
-    setIsDropdownOpen(false);
-  }
-
-  function handleBlur() {
-    const timeout = setTimeout(() => {
-      setIsDropdownOpen(false);
-    }, 100);
-    return () => clearTimeout(timeout);
-  }
   return (
     <>
       <label htmlFor="city-input" className="weather-form-label">
@@ -52,7 +64,7 @@ const WeatherForm: React.FC<InputProps> = ({ handleClick }) => {
           id="city-input"
           className="weather-form-input"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={handleChange}
           onFocus={() => setIsDropdownOpen(true)}
           onBlur={handleBlur}
         />
@@ -65,7 +77,8 @@ const WeatherForm: React.FC<InputProps> = ({ handleClick }) => {
         <CityDropdown
           cities={cities}
           isOpen={isDropdownOpen}
-          setCities={setCities}
+          isLoading={isLoading}
+          requestErrors={requestErrors}
           setSelected={handleSelect}
           query={input}
         />
