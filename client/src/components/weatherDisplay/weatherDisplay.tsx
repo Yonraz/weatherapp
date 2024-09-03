@@ -4,6 +4,8 @@ import "./weatherDisplay.css";
 import { useMemo } from "react";
 import { getDateTimeObjectFromWeather } from "../../utils/weatherUtils";
 import WeatherInfoList from "../weatherStat/weatherInfoList";
+import WeatherHeader from "./weatherHeader";
+import WeatherTemp from "./weatherTemp";
 
 interface WeatherDisplayProps {
   weatherData?: WeatherResponse;
@@ -44,26 +46,16 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
             className="weather-disp-container"
             aria-label={`Weather information for ${weatherData.name}`}
           >
-            <div className="location-name" aria-label="Location">
-              {weatherData.name}
-            </div>
-            <div className="country" aria-label="Country">
-              {weatherData.country}
-            </div>
-            <div className="weather-info" aria-label="Local time">
-              {dateObj?.date} at {dateObj?.time}
-            </div>
-            <section
-              aria-label={`Temperature and weather conditions`}
-              className="temp-container"
-            >
-              <div className="temp" aria-label="Temperature">
-                {weatherData.temp_c}°
-              </div>
-              <div className="condition" aria-label="Condition">
-                {weatherData.condition.text}
-              </div>
-            </section>
+            <WeatherHeader
+              name={weatherData.name}
+              country={weatherData.country}
+              date={dateObj.date}
+              time={dateObj.time}
+            />
+            <WeatherTemp
+              temp={weatherData.temp_c}
+              condition={weatherData.condition.text}
+            />
             <WeatherInfoList list={weatherInfo} />
             <HourForecastList days={weatherData.forecast.forecastday} />
           </section>

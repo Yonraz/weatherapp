@@ -1,6 +1,8 @@
 import { City } from "../../types/citySchema";
 import "./cityDropdown.css";
 import { RequestError } from "../../types/requestTypes";
+import RequestErrors from "../errors/requestErrors";
+import CityList from "./cityList";
 
 interface CityDropdownProps {
   query: string;
@@ -19,7 +21,6 @@ const CityDropdown: React.FC<CityDropdownProps> = ({
   requestErrors,
   isOpen,
 }) => {
-  
   function handleClick(city: City) {
     setSelected(city);
   }
@@ -29,30 +30,11 @@ const CityDropdown: React.FC<CityDropdownProps> = ({
       <>
         <div className="cities-dropdown" aria-expanded={isOpen} role="listbox">
           {isLoading && <li className="info">Loading...</li>}
-          {query.length > 2 &&
-            requestErrors &&
-            requestErrors.map((err, i) => (
-              <li key={i} className="error">
-                {err.message}
-              </li>
-            ))}
+          {query.length > 2 && <RequestErrors errors={requestErrors} />}
           {query.length < 3 && (
             <li className="info">type more than 3 characters</li>
           )}
-          <ul role="list" className="cities-list">
-            {cities &&
-              cities.map((city) => (
-                <li
-                  key={`${city.longitude}/${city.lattitude}/${city.name}`}
-                  onClick={() => handleClick(city)}
-                  role="option"
-                  className={` dropdown-item`}
-                >
-                  <div className="city-header">{city.name}</div>
-                  <div className="city-subheader">{city.country}</div>
-                </li>
-              ))}
-          </ul>
+          <CityList cities={cities} handleClick={handleClick} />
         </div>
       </>
     )
