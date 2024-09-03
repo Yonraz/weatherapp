@@ -61,6 +61,7 @@ export const weatherResponseSchema = z.object({
   precip_mm: z.number(),
   precip_in: z.number(),
   humidity: z.number(),
+  last_updated: z.string(),
   forecast: forecastSchema,
 });
 export type ForecastDay = z.infer<typeof forecastdaySchema>;

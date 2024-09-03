@@ -1,13 +1,15 @@
 import { CityData, CityResponse } from "./citySchema";
 import { ForecastDay, WeatherData, WeatherResponse } from "./weatherSchema";
 
-function getRelevantHourDataFromForecast(data: ForecastDay[]) {
-  const currentHour = new Date().getHours();
+function getRelevantHourDataFromForecast(data: WeatherData) {
+  const currentHour = new Date(data.location.localtime).getHours();
   const today = new Date();
   const tomorrow = new Date();
   tomorrow.setDate(today.getDate() + 1);
 
-  for (const day of data) {
+  const { forecastday } = data.forecast;
+
+  for (const day of forecastday) {
     const filteredHours = day.hour.filter((hourObj) => {
       const hour = parseInt(hourObj.time.split(" ")[1].split(":")[0], 10);
       const date = new Date(day.date).toDateString();
@@ -24,13 +26,13 @@ function getRelevantHourDataFromForecast(data: ForecastDay[]) {
     day.hour = filteredHours;
   }
 
-  return data;
+  return forecastday;
 }
 
 export function trimWeatherData(data: WeatherData): WeatherResponse {
   const { location, current, forecast } = data;
 
-  const days = getRelevantHourDataFromForecast(forecast.forecastday);
+  const days = getRelevantHourDataFromForecast(data);
   forecast.forecastday = days;
 
   return {
@@ -47,6 +49,7 @@ export function trimWeatherData(data: WeatherData): WeatherResponse {
     precip_mm: current.precip_mm,
     precip_in: current.precip_in,
     humidity: current.humidity,
+    last_updated: current.last_updated,
     forecast: forecast,
   };
 }

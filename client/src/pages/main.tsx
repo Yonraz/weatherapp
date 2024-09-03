@@ -48,7 +48,7 @@ export default function Main() {
             <LocationStats
               lon={weatherData?.lon}
               lat={weatherData.lat}
-              accurateTo={weatherData.localtime}
+              accurateTo={weatherData.last_updated}
             />
           )}
         </div>

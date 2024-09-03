@@ -2,6 +2,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  text-align: center;
   margin: 1rem 0;
 }
 
@@ -22,6 +23,14 @@
   margin-bottom: none;
 }
 
+.condition {
+  position: relative;
+  font-size: 30px;
+  line-height: 30px;
+  left: 1rem;
+  color: #e8f1f2;
+}
+
 .temp-container {
   display: flex;
   flex-direction: column;
@@ -37,6 +46,7 @@
 }
 .location-name {
   font: normal normal normal 26px/26px Heebo;
+  text-align: center;
   letter-spacing: 0px;
   color: #e8f1f2;
 }
@@ -49,6 +59,7 @@
   font: normal normal 300 22px/22px;
   letter-spacing: 0px;
   color: #a8c6cb;
+  text-align: center;
 }
 
 @media screen and (max-width: 1024px) {

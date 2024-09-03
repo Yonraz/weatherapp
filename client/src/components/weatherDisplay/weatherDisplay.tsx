@@ -3,6 +3,7 @@ import HourForecast from "../hourForecast/hourForecast";
 import "./weatherDisplay.css";
 import WeatherStat from "../weatherStat/weatherStat";
 import { useMemo } from "react";
+import { getDateTimeObjectFromWeather } from "../../utils/weatherUtils";
 
 interface WeatherDisplayProps {
   weatherData?: WeatherResponse;
@@ -15,12 +16,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
   isLoading,
   hasErrors,
 }) => {
-  const dateObj = useMemo(() => {
-    return {
-      date: weatherData?.forecast.forecastday[0].date,
-      time: weatherData?.forecast.forecastday[0].hour[0].time.split(" ")[1],
-    };
-  }, [weatherData]);
+  const dateObj = useMemo(() => getDateTimeObjectFromWeather(weatherData), [weatherData]);
 
   const placeholder = useMemo(() => {
     if (isLoading) return "Loading...";
@@ -35,11 +31,11 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
             <div className="location-name">{weatherData.name}</div>
             <div className="country">{weatherData.country}</div>
             <div className="weather-info">
-              {dateObj.date?.toString().replace(/-/g, "/")} at {dateObj.time}
+              {dateObj?.date} at {dateObj?.time}
             </div>
             <div className="temp-container">
               <div className="temp">{weatherData.temp_c}°</div>
-              <div>{weatherData.condition.text}</div>
+              <div className="condition">{weatherData.condition.text}</div>
             </div>
             <div className="weather-stats">
               <WeatherStat
