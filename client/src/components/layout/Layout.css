@@ -2,7 +2,7 @@
   align-self: flex-start;
   position: relative;
   top: 2em;
-  left: 4em;
+  left: 2em;
 }
 .layout {
   height: 100svh;
@@ -15,7 +15,7 @@ main {
   width: 100%;
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1800px) {
   .logo {
     left: 1.5em;
   }

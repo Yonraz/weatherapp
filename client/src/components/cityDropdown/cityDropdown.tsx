@@ -58,7 +58,7 @@ const CityDropdown: React.FC<CityDropdownProps> = ({
               </li>
             ))}
           {query.length < 3 && (
-            <li className="info">start typing to load cities</li>
+            <li className="info">type more than 3 characters</li>
           )}
           <ul role="list" className="cities-list">
             {cities &&

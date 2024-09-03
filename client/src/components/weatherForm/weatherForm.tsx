@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./weatherForm.css";
 import { City } from "../../types/cityData";
 import CityDropdown from "../cityDropdown/cityDropdown";
@@ -15,17 +15,25 @@ const WeatherForm: React.FC<InputProps> = ({ handleClick }) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!selected) return;
-    const cityArr = cities?.filter((city) => selected.name === city.name);
-
-    if (!cityArr || cityArr?.length === 0) return;
-    const querystring = selected.name;
+    let query = selected;
+    if (!query) {
+      if (cities && cities.length > 0) {
+        query = cities[0];
+        handleSelect(query);
+      } else return;
+    }
+    const querystring = query.name;
     handleClick(querystring);
   }
+
+  useEffect(() => {
+    setSelected(undefined);
+  }, [cities]);
 
   function handleSelect(city: City) {
     setSelected(city);
     setInput(city.name);
+    setIsDropdownOpen(false);
   }
 
   function handleBlur() {
