@@ -4,7 +4,7 @@ import axios from "axios";
 import { BadRequestError } from "../models/errors/badRequestError";
 import { NotFoundError } from "../models/errors/notFoundError";
 import { validateWeatherData } from "../utils/weatherApiValidations";
-import { trimWeatherData } from "../utils/dataNormalizer";
+import { getNormalizedWeatherData } from "../utils/dataNormalizer";
 
 dotenv.config();
 const BASE_URL = process.env.WEATHER_API_BASE_URL;
@@ -26,7 +26,7 @@ export const getWeather = async (
     const { data } = await axios.get(url);
     if (!data) throw new NotFoundError();
     const weatherData = validateWeatherData(data);
-    const weatherResponse = trimWeatherData(weatherData);
+    const weatherResponse = getNormalizedWeatherData(weatherData);
     return res.status(200).send(weatherResponse);
   } catch (error) {
     next(error);

@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { cacheWrapper as cache, cacheWrapper } from "../../cache";
+import { cacheWrapper as cache } from "../../cache";
 import axios from "axios";
 
 jest.mock("axios");

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import axios from "axios";
-import { trimCityData } from "../utils/dataNormalizer";
+import { getNormalizedCityData } from "../utils/dataNormalizer";
 import { validateCityData } from "../utils/cityApiValidations";
 import { CityData, CityResponse } from "../utils/citySchema";
 import { cacheWrapper as cache } from "../cache";
@@ -42,7 +42,7 @@ export const getCities = async (
     const cityData: CityData[] = response.data.map((city: any) =>
       validateCityData(city)
     );
-    const cities = trimCityData(cityData);
+    const cities = getNormalizedCityData(cityData);
 
     try {
       cache.set(cacheKey, cities);

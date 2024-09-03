@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./weatherForm.css";
-import { City } from "../../types/cityData";
+import { City } from "../../types/citySchema";
 import CityDropdown from "../cityDropdown/cityDropdown";
 
 interface InputProps {

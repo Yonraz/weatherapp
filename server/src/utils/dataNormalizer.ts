@@ -1,11 +1,13 @@
 import { CityData, CityResponse } from "./citySchema";
-import { ForecastDay, WeatherData, WeatherResponse } from "./weatherSchema";
+import { WeatherData, WeatherResponse } from "./weatherSchema";
 
 function getRelevantHourDataFromForecast(data: WeatherData) {
   const currentHour = new Date(data.location.localtime).getHours();
   const today = new Date();
   const tomorrow = new Date();
   tomorrow.setDate(today.getDate() + 1);
+  const todayString = today.toDateString();
+  const tomorrowString = tomorrow.toDateString();
 
   const { forecastday } = data.forecast;
 
@@ -13,9 +15,9 @@ function getRelevantHourDataFromForecast(data: WeatherData) {
     const filteredHours = day.hour.filter((hourObj) => {
       const hour = parseInt(hourObj.time.split(" ")[1].split(":")[0], 10);
       const date = new Date(day.date).toDateString();
-      if (date === today.toDateString()) {
+      if (date === todayString) {
         return hour >= currentHour && hour < currentHour + 5;
-      } else if (date === tomorrow.toDateString()) {
+      } else if (date === tomorrowString) {
         if (currentHour >= 19) {
           return hour < 5 - (24 - currentHour);
         }
@@ -29,7 +31,7 @@ function getRelevantHourDataFromForecast(data: WeatherData) {
   return forecastday;
 }
 
-export function trimWeatherData(data: WeatherData): WeatherResponse {
+export function getNormalizedWeatherData(data: WeatherData): WeatherResponse {
   const { location, current, forecast } = data;
 
   const days = getRelevantHourDataFromForecast(data);
@@ -54,7 +56,7 @@ export function trimWeatherData(data: WeatherData): WeatherResponse {
   };
 }
 
-export function trimCityData(data: CityData[]): CityResponse[] {
+export function getNormalizedCityData(data: CityData[]): CityResponse[] {
   return data.map((city) => ({
     name: city.name,
     country: city.country,

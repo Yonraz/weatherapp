@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useRequest from "../../hooks/useRequest";
-import { City } from "../../types/cityData";
+import { City } from "../../types/citySchema";
 import "./cityDropdown.css";
 
 interface CityDropdownProps {
