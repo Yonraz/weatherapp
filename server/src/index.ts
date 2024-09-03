@@ -1,6 +1,7 @@
-import NodeCache from "node-cache";
 import app from "./app";
-import { CacheWrapper } from "./cache";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 const startup = () => {
   if (!process.env.WEATHER_API_KEY) {

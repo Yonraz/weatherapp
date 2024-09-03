@@ -30,9 +30,8 @@ export default function useRequest() {
       } catch (err) {
         console.error(err);
         if (err instanceof AxiosError && err.response?.data.errors) {
-          const errors: string[] = err.response?.data.errors;
-          const reqErrs: RequestError[] = errors.map((e) => ({ message: e }));
-          setRequestErrors(reqErrs);
+          const errors: RequestError[] = err.response?.data.errors;
+          setRequestErrors(errors);
         } else {
           setRequestErrors([
             {
@@ -64,6 +63,11 @@ const withRetry = async (
     } catch (err) {
       if (attempt === retries) {
         throw err;
+      }
+      if (err instanceof AxiosError) {
+        if (err.status && err.status < 500) {
+          throw err;
+        }
       }
       setErrors([{ message: "Operation failed, retrying..." }]);
 

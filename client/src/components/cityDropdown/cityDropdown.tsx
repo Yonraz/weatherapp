@@ -19,6 +19,7 @@ const CityDropdown: React.FC<CityDropdownProps> = ({
   isOpen,
 }) => {
   const { sendRequest, isLoading, requestErrors } = useRequest();
+  console.log(requestErrors);
 
   useEffect(() => {
     if (query.length < 3) {

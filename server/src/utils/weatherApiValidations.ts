@@ -1,5 +1,8 @@
-import { InternalServerError } from "../models/errors/internalServerError";
-import { weatherDataSchema, weatherResponseSchema } from "./weatherSchema";
+import { InternalServerError } from "../errors/internalServerError";
+import {
+  weatherDataSchema,
+  weatherResponseSchema,
+} from "../schemas/weatherSchema";
 
 export const validateWeatherData = (data: any) => {
   try {

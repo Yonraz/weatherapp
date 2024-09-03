@@ -1,4 +1,4 @@
-import { RequestError } from "../../types/errors";
+import { RequestError } from "../types/errors";
 
 export abstract class CustomError extends Error {
   abstract statusCode: number;

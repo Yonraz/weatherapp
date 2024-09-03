@@ -1,6 +1,6 @@
-import { InternalServerError } from "../models/errors/internalServerError";
-import { City } from "../types/city";
-import { CityData, cityResponseSchema, citySchema } from "./citySchema";
+import { InternalServerError } from "../errors/internalServerError";
+import { cityResponseSchema, citySchema } from "../schemas/citySchema";
+import { CityData } from "../types/city";
 
 export const validateCityResponse = (res: any) => {
   try {

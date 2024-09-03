@@ -1,10 +1,12 @@
 import { useState } from "react";
 import WeatherForm from "../components/weatherForm/weatherForm";
 import WeatherDisplay from "../components/weatherDisplay/weatherDisplay";
+import logo from "/logo.svg";
 import { WeatherResponse, weatherResponseSchema } from "../types/weatherSchema";
 import "./home.css";
 import useRequest from "../hooks/useRequest";
 import LocationStats from "../components/locationStats/locationStats";
+import { validateResponse } from "../validations/validateResponse";
 
 const SERVER_URL = "http://localhost:8000/api/weather";
 
@@ -19,12 +21,12 @@ export default function Home() {
         url: `${SERVER_URL}?query=${query}`,
         onSuccess: (value) => {
           if (!value) return;
-          try {
-            const data = weatherResponseSchema.parse(value);
-            setWeatherData(data as WeatherResponse);
-          } catch (err) {
-            console.error(err);
-          }
+          const data = validateResponse(
+            weatherResponseSchema,
+            value,
+            console.error
+          );
+          setWeatherData(data as WeatherResponse);
         },
       });
     } catch (err) {
@@ -36,6 +38,7 @@ export default function Home() {
     <div className="page-container">
       <div className="main-container">
         <div className="input-container">
+          <img src={logo} alt="fintek logo" className="logo" />
           <div>
             <h1 className="header">
               Use our weather app to see the weather around the world

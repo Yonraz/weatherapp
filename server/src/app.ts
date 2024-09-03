@@ -1,7 +1,8 @@
-import express, { json, Router } from "express";
+import express, { json } from "express";
+import "express-async-errors";
 import { weatherRouter } from "./routes/get";
 import cors from "cors";
-import { NotFoundError } from "./models/errors/notFoundError";
+import { NotFoundError } from "./errors/notFoundError";
 import { handleError } from "./middlewares/handleError";
 
 const app = express();

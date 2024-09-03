@@ -15,14 +15,14 @@ const WeatherForm: React.FC<InputProps> = ({ handleClick }) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    let query = selected;
-    if (!query) {
-      if (cities && cities.length > 0) {
-        query = cities[0];
-        handleSelect(query);
-      } else return;
+
+    if (!selected && (!cities || cities.length === 0)) {
+      return;
     }
-    const querystring = query.name;
+    const query = selected || cities![0];
+
+    const querystring = `${query.name}, ${query.country}`;
+    handleSelect(query);
     handleClick(querystring);
   }
 
@@ -37,9 +37,10 @@ const WeatherForm: React.FC<InputProps> = ({ handleClick }) => {
   }
 
   function handleBlur() {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setIsDropdownOpen(false);
     }, 100);
+    return () => clearTimeout(timeout);
   }
   return (
     <>

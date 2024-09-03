@@ -1,4 +1,4 @@
-import { RequestError } from "../../types/errors";
+import { RequestError } from "../types/errors";
 import { CustomError } from "./customError";
 
 const defaultMessage = "The server has encountered an unexpected error";

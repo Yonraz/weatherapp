@@ -7,7 +7,6 @@ export const citySchema = z.object({
   country: z.string(),
 });
 
-export type CityData = z.infer<typeof citySchema>;
 
 export const cityResponseSchema = z.object({
   name: z.string(),
@@ -15,4 +14,3 @@ export const cityResponseSchema = z.object({
   longitude: z.number(),
   country: z.string(),
 });
-export type CityResponse = z.infer<typeof cityResponseSchema>;

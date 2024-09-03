@@ -1,12 +1,12 @@
 import { z } from "zod";
 
-const weatherConditionSchema = z.object({
+export const weatherConditionSchema = z.object({
   text: z.string(),
   icon: z.string(),
   code: z.number(),
 });
 
-const locationSchema = z.object({
+export const locationSchema = z.object({
   name: z.string(),
   lat: z.number(),
   lon: z.number(),
@@ -14,22 +14,22 @@ const locationSchema = z.object({
   country: z.string(),
 });
 
-const hourSchema = z.object({
+export const hourSchema = z.object({
   time: z.string(),
   temp_c: z.number(),
   temp_f: z.number(),
 });
 
-const forecastdaySchema = z.object({
+export const forecastdaySchema = z.object({
   date: z.string(),
   hour: z.array(hourSchema),
 });
 
-const forecastSchema = z.object({
+export const forecastSchema = z.object({
   forecastday: z.array(forecastdaySchema),
 });
 
-const currentTimeSchema = z.object({
+export const currentTimeSchema = z.object({
   temp_c: z.number(),
   temp_f: z.number(),
   condition: weatherConditionSchema,
@@ -64,11 +64,3 @@ export const weatherResponseSchema = z.object({
   last_updated: z.string(),
   forecast: forecastSchema,
 });
-export type ForecastDay = z.infer<typeof forecastdaySchema>;
-export type Forecast = z.infer<typeof forecastSchema>;
-export type WeatherCondition = z.infer<typeof weatherConditionSchema>;
-export type Hour = z.infer<typeof hourSchema>;
-export type Location = z.infer<typeof locationSchema>;
-export type CurrentTime = z.infer<typeof currentTimeSchema>;
-export type WeatherData = z.infer<typeof weatherDataSchema>;
-export type WeatherResponse = z.infer<typeof weatherResponseSchema>;

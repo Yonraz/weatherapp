@@ -1,5 +1,4 @@
 import "./Layout.css";
-import logo from "/logo.svg";
 
 interface LayoutProps {
   children: React.ReactNode | React.ReactNode[];
@@ -7,7 +6,6 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="layout">
-      <img src={logo} alt="fintek logo" className="logo" />
       <main>{children}</main>
     </div>
   );

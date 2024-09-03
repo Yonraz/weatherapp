@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomError } from "../models/errors/customError";
+import { CustomError } from "../errors/customError";
 import { RequestError } from "../types/errors";
 
 export const handleError = (
@@ -14,6 +14,9 @@ export const handleError = (
     return res.status(err.statusCode).send({ errors: reqErrors });
   }
   console.error(err);
-  const defaultErr: RequestError[] = [{ message: "Something went wrong" }];
+  const defaultErr: RequestError[] = [
+    { message: "Some unknown error occured, Please try again later." },
+  ];
+  console.log(defaultErr);
   res.status(400).send({ errors: defaultErr });
 };

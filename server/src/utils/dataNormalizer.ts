@@ -1,5 +1,5 @@
-import { CityData, CityResponse } from "./citySchema";
-import { WeatherData, WeatherResponse } from "./weatherSchema";
+import { CityData, CityResponse } from "../types/city";
+import { WeatherData, WeatherResponse } from "../types/weather";
 
 function getRelevantHourDataFromForecast(data: WeatherData) {
   const currentHour = new Date(data.location.localtime).getHours();
