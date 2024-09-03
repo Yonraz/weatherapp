@@ -1,28 +1,34 @@
 import NodeCache from "node-cache";
 
-export class CacheWrapper {
-  cacheInstance?: NodeCache;
+interface Cache {
+  get: <T>(key: string) => T | undefined;
+  set: (key: string, data: any) => boolean;
+}
 
-  constructor(cache: NodeCache) {
-    this.newCache(cache);
-  }
+export class CacheWrapper implements Cache {
+  private readonly cacheInstance: Cache;
+  private static instance: CacheWrapper;
 
-  newCache(cache: NodeCache) {
-    if (this.cacheInstance) {
-      return;
-    }
+  private constructor(cache: Cache) {
     this.cacheInstance = cache;
   }
 
+  static getInstance(cache: Cache): CacheWrapper {
+    if (!CacheWrapper.instance) {
+      CacheWrapper.instance = new CacheWrapper(cache);
+    }
+    return CacheWrapper.instance;
+  }
+
   get<T>(key: string) {
-    if (!this.cacheInstance) throw new Error("No cache instance available");
-    return this.cacheInstance?.get<T>(key);
+    return this.cacheInstance.get<T>(key);
   }
 
   set(key: string, data: any) {
-    if (!this.cacheInstance) throw new Error("No cache instance available");
-    return this.cacheInstance?.set(key, data);
+    return this.cacheInstance.set(key, data);
   }
 }
 
-export const cacheWrapper = new CacheWrapper(new NodeCache({ stdTTL: 86400 }));
+export const cacheWrapper = CacheWrapper.getInstance(
+  new NodeCache({ stdTTL: 86400 })
+);
