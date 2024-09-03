@@ -56,7 +56,9 @@ export default function Main() {
           <WeatherDisplay
             weatherData={weatherData}
             isLoading={isLoading}
-            hasErrors={(requestErrors && requestErrors?.length > 0) || false}
+            hasErrors={
+              requestErrors && requestErrors?.length > 0 ? true : false
+            }
           />
         </div>
       </div>

@@ -8,7 +8,7 @@ import { getDateTimeObjectFromWeather } from "../../utils/weatherUtils";
 interface WeatherDisplayProps {
   weatherData?: WeatherResponse;
   isLoading: boolean;
-  hasErrors: boolean;
+  hasErrors?: boolean;
 }
 
 const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
@@ -25,7 +25,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
   }, [isLoading, hasErrors]);
   return (
     <>
-      {weatherData ? (
+      {weatherData && !isLoading && !hasErrors ? (
         <>
           <div className="weather-disp-container">
             <div className="location-name">{weatherData.name}</div>
