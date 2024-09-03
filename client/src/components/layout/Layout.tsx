@@ -1,5 +1,5 @@
 import "./Layout.css";
-import logo from "../../../public/logo.svg";
+import logo from "/logo.svg";
 
 interface LayoutProps {
   children: React.ReactNode | React.ReactNode[];

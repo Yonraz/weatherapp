@@ -18,7 +18,6 @@ export default function Home() {
         method: "GET",
         url: `${SERVER_URL}?query=${query}`,
         onSuccess: (value) => {
-          console.log(value);
           if (!value) return;
           try {
             const data = weatherResponseSchema.parse(value);
