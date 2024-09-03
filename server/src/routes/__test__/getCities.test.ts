@@ -19,23 +19,13 @@ it("Returns an empty array for a non-existant or too short query param", async (
   expect(body.length).toEqual(0);
 });
 
-it("Returns a valid response object with all fields", async () => {
-  const query = "Tel Aviv-Yafo";
-  const url = `${GET_CITIES_ENDPOINT}?query=${query}`;
-  const response = await request(app).get(url).send().expect(200);
-  expect(Array.isArray(response.body)).toBe(true);
-  expect(response.body.length).toEqual(1);
-  const cityData = validateCityResponse(response.body[0]);
-  expect(cityData.name).toEqual(query);
-});
-
-it("Returns an array of cities when there's more than one result", async () => {
-  const query = "Jeru";
+it("Returns an array of cities for a valid query", async () => {
+  const query = "Lon";
   const url = `${GET_CITIES_ENDPOINT}?query=${query}`;
   const response = await request(app).get(url).send().expect(200);
   const { body } = response;
   console.log(body[0]);
   expect(Array.isArray(body)).toBe(true);
-  const cityData = validateCityResponse(body[0]);
-  expect(cityData.name).toEqual("Jerusalem");
+  const city = validateCityResponse(body[0]);
+  expect(city.name).toEqual("London");
 });

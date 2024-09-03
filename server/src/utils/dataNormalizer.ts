@@ -1,14 +1,7 @@
-import { City } from "../types/city";
 import { CityData, CityResponse } from "./citySchema";
-import {
-  Forecast,
-  ForecastDay,
-  Hour,
-  WeatherData,
-  WeatherResponse,
-} from "./weatherSchema";
+import { ForecastDay, WeatherData, WeatherResponse } from "./weatherSchema";
 
-function getRelevantHours(data: ForecastDay[]) {
+function getRelevantHourDataFromForecast(data: ForecastDay[]) {
   const currentHour = new Date().getHours();
   const today = new Date();
   const tomorrow = new Date();
@@ -22,7 +15,6 @@ function getRelevantHours(data: ForecastDay[]) {
         return hour >= currentHour && hour < currentHour + 5;
       } else if (date === tomorrow.toDateString()) {
         if (currentHour >= 19) {
-          console.log(5 - (24 - currentHour));
           return hour < 5 - (24 - currentHour);
         }
       }
@@ -38,7 +30,7 @@ function getRelevantHours(data: ForecastDay[]) {
 export function trimWeatherData(data: WeatherData): WeatherResponse {
   const { location, current, forecast } = data;
 
-  const days = getRelevantHours(forecast.forecastday);
+  const days = getRelevantHourDataFromForecast(forecast.forecastday);
   forecast.forecastday = days;
 
   return {
