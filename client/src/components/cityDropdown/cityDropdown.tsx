@@ -19,6 +19,7 @@ const CityDropdown: React.FC<CityDropdownProps> = ({
   isOpen,
 }) => {
   const { sendRequest, isLoading, requestErrors } = useRequest();
+
   useEffect(() => {
     if (query.length < 3) {
       setCities(undefined);
@@ -41,34 +42,38 @@ const CityDropdown: React.FC<CityDropdownProps> = ({
   }, [query, sendRequest, setCities]);
 
   function handleClick(city: City) {
-    console.log(city);
     setSelected(city);
   }
+
   return (
     isOpen && (
       <>
-        <div className="cities-dropdown">
-          {isLoading && <div className="info">Loading...</div>}
+        <div className="cities-dropdown" aria-expanded={isOpen} role="listbox">
+          {isLoading && <li className="info">Loading...</li>}
           {query.length > 3 &&
             requestErrors &&
             requestErrors.map((err, i) => (
-              <div key={i} className="error">
+              <li key={i} className="error">
                 {err.message}
-              </div>
-            ))}
-          {query.length < 3 && (
-            <div className="info">start typing to load cities</div>
-          )}
-          {cities &&
-            cities.map((city) => (
-              <li
-                key={`${city.longitude}/${city.lattitude}`}
-                onClick={() => handleClick(city)}
-              >
-                <div className="city-header">{city.name}</div>
-                <div className="city-subheader">{city.country}</div>
               </li>
             ))}
+          {query.length < 3 && (
+            <li className="info">start typing to load cities</li>
+          )}
+          <ul role="list" className="cities-list">
+            {cities &&
+              cities.map((city) => (
+                <li
+                  key={`${city.longitude}/${city.lattitude}/${city.name}`}
+                  onClick={() => handleClick(city)}
+                  role="option"
+                  className={` dropdown-item`}
+                >
+                  <div className="city-header">{city.name}</div>
+                  <div className="city-subheader">{city.country}</div>
+                </li>
+              ))}
+          </ul>
         </div>
       </>
     )

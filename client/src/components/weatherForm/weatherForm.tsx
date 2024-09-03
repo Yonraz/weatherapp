@@ -35,9 +35,12 @@ const WeatherForm: React.FC<InputProps> = ({ handleClick }) => {
   }
   return (
     <>
-      <label className="weather-form-label">City name</label>
+      <label htmlFor="city-input" className="weather-form-label">
+        City name
+      </label>
       <form className="weather-form" onSubmit={handleSubmit}>
         <input
+          id="city-input"
           className="weather-form-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}

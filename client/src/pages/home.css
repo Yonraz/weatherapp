@@ -5,6 +5,12 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
 .main-container {
   display: flex;
   justify-content: space-between;

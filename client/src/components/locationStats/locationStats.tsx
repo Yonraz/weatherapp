@@ -19,10 +19,12 @@ const LocationStats: React.FC<LocationStatsProps> = ({
   return (
     <div className="location-container">
       <div>
-        <span style={{ marginRight: "1em" }}>latitude {lat}</span>
-        <span>longitude {lon}</span>
+        <span style={{ marginRight: "1em" }} aria-label="Latitude">
+          latitude {lat}
+        </span>
+        <span aria-label="Longitude">longitude {lon}</span>
       </div>
-      <div>
+      <div aria-label="Accuracy information">
         accurate to {date} at {time}
       </div>
     </div>

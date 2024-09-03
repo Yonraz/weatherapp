@@ -1,4 +1,5 @@
 import { ForecastDay } from "../../types/weatherSchema";
+import ForecastHourItem from "./forecastHourItem";
 import "./hourForecast.css";
 
 interface HourForecastProps {
@@ -6,19 +7,26 @@ interface HourForecastProps {
   tempUnit?: "c" | "f";
 }
 
-const HourForecast: React.FC<HourForecastProps> = ({ days, tempUnit }) => {
+const HourForecastList: React.FC<HourForecastProps> = ({ days, tempUnit }) => {
   if (!tempUnit) tempUnit = "c";
+
   return (
-    <div className="weather-stats">
+    <div className="weather-stats" role="list" aria-label="Hourly Forecast">
       {days.map((day) =>
-        day.hour.map((hour, i) => (
-          <div className="hour-container" key={i}>
-            <div className="hour">{hour.time.split(" ")[1]}</div>
-            <div className="hour-temp">{hour[`temp_${tempUnit}`]}°</div>
+        day.hour.map((hour) => (
+          <div
+            aria-label={`Forecast for ${hour.time.split(" ")[1]}: ${
+              hour[`temp_${tempUnit}`]
+            } degrees ${tempUnit === "c" ? "Celsius" : "Fahrenheit"}`}
+            className="hour-container"
+            key={hour.time}
+            role="listitem"
+          >
+            <ForecastHourItem hour={hour} tempUnit={tempUnit} />
           </div>
         ))
       )}
     </div>
   );
 };
-export default HourForecast;
+export default HourForecastList;

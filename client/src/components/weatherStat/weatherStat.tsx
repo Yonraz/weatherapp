@@ -1,16 +1,19 @@
 import "./weatherStat.css";
-interface WeatherStatProps {
+interface WeatherInfoProps {
   title: string;
   value: string;
 }
 
-const WeatherStat: React.FC<WeatherStatProps> = ({ title, value }) => {
+const WeatherInfo: React.FC<WeatherInfoProps> = ({ title, value }) => {
   return (
-    <div className="weather-stat">
+    <div
+      className="weather-stat"
+      aria-label={`Weather information for ${title}`}
+    >
       <p className="stat-title">{title}</p>
       <p className="stat-value">{value}</p>
     </div>
   );
 };
 
-export default WeatherStat;
+export default WeatherInfo;

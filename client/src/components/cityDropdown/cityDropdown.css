@@ -6,13 +6,25 @@
 .city-header {
   font-size: 16px;
 }
+
 li {
   list-style: none;
-  border-bottom: #707070;
-  padding: 1rem 0.5rem;
   border-radius: inherit;
+  padding: 1rem 0.5rem;
 }
-li:hover {
+
+ul {
+  padding: 0;
+  margin: 0;
+  border: inherit;
+  width: 100%;
+}
+
+.active {
+  background-color: #f1f1f1;
+}
+
+.dropdown-item:hover {
   cursor: pointer;
   background-color: #f1f1f1;
 }

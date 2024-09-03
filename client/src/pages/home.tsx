@@ -1,15 +1,14 @@
 import { useState } from "react";
 import WeatherForm from "../components/weatherForm/weatherForm";
-import PageContainer from "../components/pageContainer/pageContainer";
 import WeatherDisplay from "../components/weatherDisplay/weatherDisplay";
 import { WeatherResponse, weatherResponseSchema } from "../types/weatherSchema";
-import "./main.css";
+import "./home.css";
 import useRequest from "../hooks/useRequest";
 import LocationStats from "../components/locationStats/locationStats";
 
 const SERVER_URL = "http://localhost:8000/api/weather";
 
-export default function Main() {
+export default function Home() {
   const [weatherData, setWeatherData] = useState<WeatherResponse | undefined>();
   const { sendRequest, isLoading, requestErrors } = useRequest();
 
@@ -35,7 +34,7 @@ export default function Main() {
   }
 
   return (
-    <PageContainer>
+    <div className="page-container">
       <div className="main-container">
         <div className="input-container">
           <div>
@@ -62,6 +61,6 @@ export default function Main() {
           />
         </div>
       </div>
-    </PageContainer>
+    </div>
   );
 }

@@ -1,9 +1,9 @@
 import { WeatherResponse } from "../../types/weatherSchema";
-import HourForecast from "../hourForecast/hourForecast";
+import HourForecastList from "../hourForecast/hourForecast";
 import "./weatherDisplay.css";
-import WeatherStat from "../weatherStat/weatherStat";
 import { useMemo } from "react";
 import { getDateTimeObjectFromWeather } from "../../utils/weatherUtils";
+import WeatherInfoList from "../weatherStat/weatherInfoList";
 
 interface WeatherDisplayProps {
   weatherData?: WeatherResponse;
@@ -16,7 +16,20 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
   isLoading,
   hasErrors,
 }) => {
-  const dateObj = useMemo(() => getDateTimeObjectFromWeather(weatherData), [weatherData]);
+  const dateObj = useMemo(
+    () => getDateTimeObjectFromWeather(weatherData),
+    [weatherData]
+  );
+
+  const weatherInfo = useMemo(
+    () =>
+      weatherData && [
+        { title: "percipitation", value: `${weatherData?.precip_mm} mm` },
+        { title: "humidity", value: `${weatherData?.humidity}%` },
+        { title: "wind", value: `${weatherData?.wind_kph} km/h` },
+      ],
+    [weatherData]
+  );
 
   const placeholder = useMemo(() => {
     if (isLoading) return "Loading...";
@@ -27,35 +40,36 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({
     <>
       {weatherData && !isLoading && !hasErrors ? (
         <>
-          <div className="weather-disp-container">
-            <div className="location-name">{weatherData.name}</div>
-            <div className="country">{weatherData.country}</div>
-            <div className="weather-info">
+          <section
+            className="weather-disp-container"
+            aria-label={`Weather information for ${weatherData.name}`}
+          >
+            <div className="location-name" aria-label="Location">
+              {weatherData.name}
+            </div>
+            <div className="country" aria-label="Country">
+              {weatherData.country}
+            </div>
+            <div className="weather-info" aria-label="Local time">
               {dateObj?.date} at {dateObj?.time}
             </div>
-            <div className="temp-container">
-              <div className="temp">{weatherData.temp_c}°</div>
-              <div className="condition">{weatherData.condition.text}</div>
-            </div>
-            <div className="weather-stats">
-              <WeatherStat
-                title="percipitation"
-                value={`${weatherData.precip_mm} mm`}
-              />
-              <WeatherStat
-                title="humidity"
-                value={`${weatherData.humidity}%`}
-              />
-              <WeatherStat
-                title="wind"
-                value={`${weatherData.wind_kph} km/h`}
-              />
-            </div>
-            <HourForecast days={weatherData.forecast.forecastday} />
-          </div>
+            <section
+              aria-label={`Temperature and weather conditions`}
+              className="temp-container"
+            >
+              <div className="temp" aria-label="Temperature">
+                {weatherData.temp_c}°
+              </div>
+              <div className="condition" aria-label="Condition">
+                {weatherData.condition.text}
+              </div>
+            </section>
+            <WeatherInfoList list={weatherInfo} />
+            <HourForecastList days={weatherData.forecast.forecastday} />
+          </section>
         </>
       ) : (
-        <div className="disp-placeholder">{placeholder}</div>
+        <p className="disp-placeholder">{placeholder}</p>
       )}
     </>
   );
